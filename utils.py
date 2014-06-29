@@ -55,17 +55,19 @@ def product(nums):
     return ans
 
 
-def factor_pairs(target):
+def factor_pairs(target, sieve=None):
     from itertools import combinations
-    factors = prime_factors(target)
+    factors = prime_factors(target, sieve)
+    history = set()
     for r in range(len(factors)/2+1):
         for combo in combinations(factors, r):
             p1 = product(combo)
+            if p1 in history: continue
             p2 = target / p1
+            history.add(p1)
+            history.add(p2)
             yield p1, p2
 
-
-print list(factor_pairs(12))
 
 def all_equal(items):
     return len(set(items)) == 1

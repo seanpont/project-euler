@@ -14,27 +14,28 @@ Find the product abc.
 
 # x^2 + y^2 = z^2
 # x + y + z = 1000
-# x^2 + y^2 = (1000 - x - y)
-# 2xy - 2000x - 2000y + 1000000 = 0
-# (2x-2000)(2y-2000)=2*1000000 + -2000*-2000
-# (2x-2000)(2y-2000)=6000000
+# x^2 + y^2 = (1000 - x - y)^2
+# 2xy - 2000x - 2000y = -1000000
 
-# (ax+c)(ay+b)=ad+bc
+# axy + bx + cy = d
+# (ax+c)(ay+b) = ad+bc
+
+# To solve this diophantine equation, we find all factors of the right side
+# and solve for x and y and see if they are integers.
+# Note: It so happens that we need the negative factors to find the
+# solution to this problem.
 
 from utils import *
-from itertools import combinations
 
-a, b, c, d = 2, -2000, -2000, 1000**2
+a, b, c, d = 2, -2000, -2000, -1000000
 right_side = a*d + b*c
 
-
-factors = prime_factors(d)
-
-for r in range(len(factors)/2+1):
-    for combo in combinations(factors, r):
-        p1 = product(combo)
-        p2 = right_side / p1
-        if (p1 - c) % a == 0 and (p2 - b) % a == 0:
-            x = (p1 - c) / a
-            y = (p2 - b) / a
-            print x, y
+for f1, f2 in factor_pairs(right_side):
+    f1 = -f1
+    f2 = -f2
+    if (f1 - c) % a == 0 and (f2 - b) % a == 0:
+        x = (f1 - c) / a
+        y = (f2 - b) / a
+        if 0 < x < 1000 and 0 < y < 1000:
+            z = int((x**2 + y ** 2) ** 0.5)
+            print x * y * z
