@@ -9,3 +9,8 @@ How many routes are there through a 20 * 20 grid?
 """
 
 
+from utils import pascals_triangle
+
+row = tuple(pascals_triangle(20*2))[-1]
+print row[len(row)/2]
+

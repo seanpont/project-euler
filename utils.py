@@ -116,3 +116,18 @@ def pairwise_reduce(func, iterable):
     return pairwise_reduce(func, reduced)
 
 
+
+def _next_pascal_row(p):
+    pn = [0]*(len(p)+1)
+    pn[0] = pn[-1] = 1
+    for i in range(len(p)-1):
+        pn[i+1] = p[i] + p[i+1]
+    return pn
+
+def pascals_triangle(limit):
+    p = [1]
+    yield p
+    while limit > 0:
+        p = _next_pascal_row(p)
+        yield p
+        limit -= 1
