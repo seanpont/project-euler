@@ -8,3 +8,6 @@ Find the sum of all the primes below two million.
 """
 
 
+from utils import PrimeSieve
+
+print sum(PrimeSieve(int(2e6)))
