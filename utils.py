@@ -1,6 +1,7 @@
 __author__ = 'sean'
 
 from collections import defaultdict
+from itertools import *
 
 
 class PrimeSieve(object):
@@ -34,6 +35,8 @@ class PrimeSieve(object):
 
 
 def prime_factors(target, sieve=None):
+    if target == 0:
+        return ()
     if not sieve:
         sieve_size = min(10000, int(target ** .5) + 1)
         sieve = PrimeSieve(sieve_size)
@@ -47,7 +50,7 @@ def prime_factors(target, sieve=None):
             break
     if target > 1:
         factors.append(target)
-    return factors
+    return tuple(factors)
 
 
 def num_divisors(target, sieve=None):
@@ -67,22 +70,24 @@ def product(nums):
     return ans
 
 
-def factor_pairs(target, sieve=None):
-    from itertools import combinations
+def proper_divisors(target, sieve=None):
     factors = prime_factors(target, sieve)
-    history = set()
-    for r in range(len(factors)/2+1):
-        for combo in combinations(factors, r):
-            p1 = product(combo)
-            if p1 in history: continue
-            p2 = target / p1
-            history.add(p1)
-            history.add(p2)
-            yield p1, p2
+    return tuple(set(chain(*((product(combo) for combo in combinations(factors, r)) for r in xrange(len(factors))))))
+
+
+def factor_pairs(target, sieve=None):
+    for f1 in sorted(proper_divisors(target, sieve)):
+        f2 = target/f1
+        if f2 < f1: break
+        yield f1, f2
 
 
 def all_equal(items):
-    return len(set(items)) == 1
+    a = items[0]
+    for b in items[1:]:
+        if a != b:
+            return False
+    return True
 
 
 def min_index(items):
@@ -116,13 +121,13 @@ def pairwise_reduce(func, iterable):
     return pairwise_reduce(func, reduced)
 
 
-
 def _next_pascal_row(p):
     pn = [0]*(len(p)+1)
     pn[0] = pn[-1] = 1
     for i in range(len(p)-1):
         pn[i+1] = p[i] + p[i+1]
     return pn
+
 
 def pascals_triangle(limit):
     p = [1]
@@ -131,3 +136,16 @@ def pascals_triangle(limit):
         p = _next_pascal_row(p)
         yield p
         limit -= 1
+
+
+def flatten(iterable):
+    return chain(*iterable)
+
+
+if __name__ == '__main__':
+    assert prime_factors(0, PrimeSieve(3)) == ()
+    assert proper_divisors(10) == (1, 2, 5)
+    assert tuple(factor_pairs(24)) == ((1, 24), (2, 12), (3, 8), (4, 6))
+    assert tuple(factor_pairs(64)) == ((1, 64), (2, 32), (4, 16), (8, 8))
+    assert not all_equal([1, 1, 1, 2])
+    assert all_equal([4, 4, 4])

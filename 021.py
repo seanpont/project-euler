@@ -15,3 +15,22 @@ Evaluate the sum of all the amicable numbers under 10000.
 """
 
 
+from utils import *
+
+sieve = PrimeSieve(1000)
+
+def d(n):
+    return sum(proper_divisors(n, sieve))
+
+limit = 10000
+
+ds = [d(n) for n in range(limit)]
+
+# Find pairs by looking ahead in the array.
+# ie all numbers to left of cursor have been paired.
+pairs = []
+for index, dval in enumerate(ds):
+    if limit > dval > index == ds[dval]:
+        pairs.append((index, dval))
+
+print sum(flatten(pairs))
