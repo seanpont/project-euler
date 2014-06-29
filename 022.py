@@ -15,4 +15,22 @@ COLIN would obtain a score of 938 * 53 = 49714.
 What is the total of all the name scores in the file?
 """
 
+from string import ascii_uppercase
+
+
+def name_score(name):
+    return sum(ascii_uppercase.index(letter) for letter in name) + len(name)
+
+assert name_score('COLIN') == 53
+
+with open("names.txt") as f:
+    names = f.readline()
+names = sorted(names[1:-1].split('","'))
+
+for index, name in enumerate(names):
+    if name == 'COLIN':
+        assert name_score(name) * (index + 1) == 49714
+        break
+
+print sum((name_score(name) * (index + 1) for index, name in enumerate(names)))
 
