@@ -1,5 +1,7 @@
 __author__ = 'sean'
 
+from collections import defaultdict
+
 
 class PrimeSieve(object):
     def __init__(self, size):
@@ -46,6 +48,16 @@ def prime_factors(target, sieve=None):
     if target > 1:
         factors.append(target)
     return factors
+
+
+def num_divisors(target, sieve=None):
+    if not sieve:
+        sieve = PrimeSieve(target)
+    d = defaultdict(int)
+    factors = prime_factors(target, sieve)
+    for f in factors:
+        d[f] += 1
+    return product([v+1 for v in d.values()])
 
 
 def product(nums):

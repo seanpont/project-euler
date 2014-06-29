@@ -26,3 +26,21 @@ divisors?
 """
 
 
+from utils import *
+from collections import defaultdict
+
+def triangle_numbers(limit):
+    tri = 0
+    for i in xrange(1, limit):
+        tri += i
+        yield tri
+
+sieve = PrimeSieve(10000)
+
+for tri in triangle_numbers(20000):
+    if num_divisors(tri, sieve) > 500:
+        print tri
+        exit()
+
+
+
