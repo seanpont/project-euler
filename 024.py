@@ -14,3 +14,9 @@ What is the millionth lexicographic permutation of the digits 0, 1, 2, 3,
 """
 
 
+from itertools import permutations
+
+for index, perm in enumerate(permutations(range(10))):
+    if index == 999999:
+        print ''.join(map(str, perm))
+        exit()
