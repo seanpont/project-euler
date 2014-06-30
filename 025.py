@@ -26,4 +26,9 @@ The 12th term, F[12], is the first term to contain three digits.
 What is the first term in the Fibonacci sequence to contain 1000 digits?
 """
 
+limit = 10**999
+i, a, b = 1, 1, 1
+while b < limit:
+    a, b, i = b, a + b, i+1
 
+print i+1
