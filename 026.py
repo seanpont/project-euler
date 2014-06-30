@@ -22,4 +22,27 @@ Find the value of d < 1000 for which ^1/[d] contains the longest recurring
 cycle in its decimal fraction part.
 """
 
+from utils import *
 
+def decimal_seq_size(n):
+    # dec = []
+    num_hist = []
+    num = 10
+    while num > 0:
+        num_hist.append(num)
+        while num < n:
+            num *= 10
+            # dec.append(0)
+            num_hist.append(num)
+        a = num / n
+        # dec.append(a)
+        num = (num % n) * 10
+        if num in num_hist:
+            break
+    # return dec
+    return len(num_hist)
+
+
+seq_sizes = [decimal_seq_size(n) for n in xrange(1, 1000)]
+
+print seq_sizes.index(max(seq_sizes)) + 1
