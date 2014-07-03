@@ -17,4 +17,7 @@ Find the sum of all the numbers that can be written as the sum of fifth
 powers of their digits.
 """
 
+def fifth_sum(n):
+    return sum(a**5 for a in map(int, str(n))) == n
 
+print sum([n for n in xrange(2, 10**6) if fifth_sum(n)])
