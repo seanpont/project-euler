@@ -17,4 +17,4 @@ What is the sum of both diagonals in a 1001 by 1001 spiral formed in the
 same way?
 """
 
-
+print sum((i**2 * 4 - (i - 1) * 6 for i in xrange(3, 1002, 2))) + 1
