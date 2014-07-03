@@ -14,4 +14,12 @@ It is possible to make -L-2 in the following way:
 How many different ways can -L-2 be made using any number of coins?
 """
 
+coins = [1, 2, 5, 10, 20, 50, 100, 200]
 
+def make_change(amount, coin):
+    if coin == 0:
+        return 1
+    return sum(make_change(amount-contribution, coin-1)
+               for contribution in xrange(0, amount+1, coins[coin]))
+
+print make_change(200, len(coins)-1)
