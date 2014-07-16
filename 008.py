@@ -27,7 +27,7 @@ number.
             71636269561882670428252483600823257530420752963450
 """
 
-from utils import product
+from utils import product_of
 
 digits = """
 73167176531330624919225119674426574742355349194934
@@ -51,7 +51,7 @@ digits = """
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450""".replace('\n', '')
 
-print max((product(map(int, digits[index:index+5])) for index in range(0, len(digits)-5)))
+print max((product_of(map(int, digits[index:index+5])) for index in range(0, len(digits)-5)))
 
 
 

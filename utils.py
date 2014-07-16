@@ -2,17 +2,20 @@ __author__ = 'sean'
 
 from collections import defaultdict
 from itertools import *
+import math
 
+
+# ===== PRIMES AND FACTORS =========================
 
 class PrimeSieve(object):
     def __init__(self, size):
         self.index = 1  # for iteration
-        self.size = size
-        self.sieve = [True] * size
-        for i in xrange(2, size):
+        self.size = int(size)
+        self.sieve = [True] * self.size
+        for i in xrange(2, self.size):
             if not self.sieve[i]:
                 continue
-            for j in xrange(i+i, size, i):
+            for j in xrange(i+i, self.size, i):
                 self.sieve[j] = False
 
     def is_prime(self, num):
@@ -63,16 +66,9 @@ def num_divisors(target, sieve=None):
     return product([v+1 for v in d.values()])
 
 
-def product(nums):
-    ans = 1
-    for num in nums:
-        ans *= num
-    return ans
-
-
 def proper_divisors(target, sieve=None):
     factors = prime_factors(target, sieve)
-    return tuple(set(chain(*((product(combo) for combo in combinations(factors, r)) for r in xrange(len(factors))))))
+    return tuple(set(chain(*((product_of(combo) for combo in combinations(factors, r)) for r in xrange(len(factors))))))
 
 
 def factor_pairs(target, sieve=None):
@@ -80,6 +76,22 @@ def factor_pairs(target, sieve=None):
         f2 = target/f1
         if f2 < f1: break
         yield f1, f2
+
+
+def greatest_common_divisor(a, b, sieve=None):
+    if not sieve:
+        sieve = PrimeSieve(math.ceil(max(a, b) ** .5))
+    factors_a = prime_factors(a, sieve)
+    factors_b = prime_factors(b, sieve)
+    common_factors = [fact for fact in factors_a if fact in factors_b]
+    return product_of(common_factors)
+
+
+# ===== LIST HELPERS ==============================
+
+
+def product_of(nums):
+    return reduce(lambda a, b: a*b, nums, 1)
 
 
 def all_equal(items):
@@ -90,8 +102,16 @@ def all_equal(items):
     return True
 
 
+def all_different(items):
+    return len(set(items)) == len(items)
+
+
 def min_index(items):
     return items.index(min(items))
+
+
+def flatten(iterable):
+    return chain(*iterable)
 
 
 def lowest_common_multiple(nums, max_num=1000000000):
@@ -121,6 +141,9 @@ def pairwise_reduce(func, iterable):
     return pairwise_reduce(func, reduced)
 
 
+# ===== PASCAL ==============================
+
+
 def _next_pascal_row(p):
     pn = [0]*(len(p)+1)
     pn[0] = pn[-1] = 1
@@ -138,8 +161,22 @@ def pascals_triangle(limit):
         limit -= 1
 
 
-def flatten(iterable):
-    return chain(*iterable)
+def by_tens(n):
+    while n > 0:
+        yield n
+        n /= 10
+
+
+# ===== DIGITS ==============================
+
+def to_digits(n):
+    return tuple(reversed([n % 10 for n in by_tens(n)]))
+
+
+def from_digits(digits):
+    return reduce(lambda a, b: a*10+b, digits)
+
+# ===== TESTS ==============================
 
 
 if __name__ == '__main__':
@@ -149,3 +186,6 @@ if __name__ == '__main__':
     assert tuple(factor_pairs(64)) == ((1, 64), (2, 32), (4, 16), (8, 8))
     assert not all_equal([1, 1, 1, 2])
     assert all_equal([4, 4, 4])
+    assert product_of([3, 5, 7]) == 3 * 5 * 7
+    assert to_digits(48195) == (4, 8, 1, 9, 5)
+    assert from_digits(to_digits(830285)) == 830285

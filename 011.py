@@ -32,7 +32,7 @@ What is the greatest product of four adjacent numbers in any direction
 (up, down, left, right, or diagonally) in the 20 * 20 grid?
 """
 
-from utils import product
+from utils import product_of
 
 numbers = """
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -60,10 +60,10 @@ grid = [map(int, line.split(' ')) for line in numbers.split('\n')]
 
 rows, cols = len(grid), len(grid[0])
 
-max_row = max((product(grid[row][col:col+4]) for col in xrange(0, cols-3) for row in xrange(rows)))
-max_col =  max((product(grid[row+i][col] for i in xrange(4)) for col in xrange(cols) for row in xrange(0, rows-3)))
-max_diag1 = max(product((grid[row+i][col+i] for i in xrange(4))) for col in xrange(cols-3) for row in xrange(rows-3))
-max_diag2 = max(product((grid[row+i][col-i] for i in xrange(4))) for col in xrange(3, cols) for row in xrange(rows-3))
+max_row = max((product_of(grid[row][col:col+4]) for col in xrange(0, cols-3) for row in xrange(rows)))
+max_col =  max((product_of(grid[row+i][col] for i in xrange(4)) for col in xrange(cols) for row in xrange(0, rows-3)))
+max_diag1 = max(product_of((grid[row+i][col+i] for i in xrange(4))) for col in xrange(cols-3) for row in xrange(rows-3))
+max_diag2 = max(product_of((grid[row+i][col-i] for i in xrange(4))) for col in xrange(3, cols) for row in xrange(rows-3))
 
 print max(max_row, max_col, max_diag1, max_diag2)
 

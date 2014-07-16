@@ -49,7 +49,7 @@ for a in xrange(-999, 1000):
             best_streak = streak
             best_coeff = (a, b)
 
-print product(best_coeff)
+print product_of(best_coeff)
 
 
 
