@@ -1,6 +1,6 @@
 __author__ = 'sean'
 
-from collections import defaultdict
+from collections import defaultdict, deque
 from itertools import *
 import math
 
@@ -106,6 +106,13 @@ def all_different(items):
     return len(set(items)) == len(items)
 
 
+def all_meet_criteria(items, func):
+    for item in items:
+        if not func(item):
+            return False
+    return True
+
+
 def min_index(items):
     return items.index(min(items))
 
@@ -176,6 +183,12 @@ def to_digits(n):
 def from_digits(digits):
     return reduce(lambda a, b: a*10+b, digits)
 
+def rotations(n):
+    digits = deque(to_digits(n))
+    for i in xrange(len(digits)):
+        yield from_digits(digits)
+        digits.rotate()
+
 # ===== TESTS ==============================
 
 
@@ -189,3 +202,4 @@ if __name__ == '__main__':
     assert product_of([3, 5, 7]) == 3 * 5 * 7
     assert to_digits(48195) == (4, 8, 1, 9, 5)
     assert from_digits(to_digits(830285)) == 830285
+    assert list(rotations(345)) == [345, 534, 453]

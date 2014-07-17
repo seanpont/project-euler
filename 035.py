@@ -12,3 +12,8 @@ How many circular primes are there below one million?
 """
 
 
+from utils import *
+
+sieve = PrimeSieve(1000000)
+
+print len([n for n in sieve if all_meet_criteria(rotations(n), lambda x: sieve.is_prime(x))])
