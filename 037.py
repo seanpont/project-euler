@@ -13,4 +13,25 @@ to right and right to left.
 NOTE: 2, 3, 5, and 7 are not considered to be truncatable primes.
 """
 
+from utils import *
 
+max_n = 1000000
+
+sieve = PrimeSieve(max_n)
+
+def is_prime(n):
+    return sieve.is_prime(n)
+
+def left_truncate(n):
+    s = str(n)
+    for i in xrange(len(s)):
+        yield int(s[i:])
+
+
+def is_truncatable_prime(n):
+    return is_prime(n) and \
+           all_meet_criteria(by_tens(n), is_prime) and \
+           all_meet_criteria(left_truncate(n), is_prime)
+
+
+print sum([n for n in xrange(11, max_n) if is_truncatable_prime(n)])

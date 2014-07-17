@@ -12,6 +12,7 @@ class PrimeSieve(object):
         self.index = 1  # for iteration
         self.size = int(size)
         self.sieve = [True] * self.size
+        self.sieve[1] = False
         for i in xrange(2, self.size):
             if not self.sieve[i]:
                 continue
