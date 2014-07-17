@@ -12,4 +12,7 @@ in base 10 and base 2.
 leading zeros.)
 """
 
+from utils import *
 
+
+print sum([n for n in xrange(1000000) if is_palindrome(n) and is_palindrome(bin(n)[2:])])

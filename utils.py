@@ -121,6 +121,16 @@ def flatten(iterable):
     return chain(*iterable)
 
 
+def is_palindrome(items):
+    if isinstance(items, int):
+        items = str(items)
+    s = len(items)-1
+    for i in xrange(len(items)/2):
+        if items[i] != items[s-i]:
+            return False
+    return True
+
+
 def lowest_common_multiple(nums, max_num=1000000000):
     rangers = [xrange(i, max_num, i).__iter__() for i in nums]
     nexts = [ranger.next() for ranger in rangers]
@@ -199,6 +209,7 @@ if __name__ == '__main__':
     assert tuple(factor_pairs(64)) == ((1, 64), (2, 32), (4, 16), (8, 8))
     assert not all_equal([1, 1, 1, 2])
     assert all_equal([4, 4, 4])
+    assert is_palindrome('4567654')
     assert product_of([3, 5, 7]) == 3 * 5 * 7
     assert to_digits(48195) == (4, 8, 1, 9, 5)
     assert from_digits(to_digits(830285)) == 830285

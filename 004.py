@@ -11,15 +11,6 @@ Find the largest palindrome made from the product of two 3-digit numbers.
 from utils import *
 
 
-def is_palindrome(num):
-    num_str = str(num)
-    length = len(num_str)
-    for i in xrange(length/2):
-        if num_str[i] != num_str[-i-1]:
-            return False
-    return True
-
-
 max_num = 999 * 999
 min_num = 800 * 800
 sieve = PrimeSieve(1000)
