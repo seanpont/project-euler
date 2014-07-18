@@ -38,6 +38,18 @@ class PrimeSieve(object):
         return self.index
 
 
+def is_prime(n, sieve=None):
+    max_p = math.ceil(n**.5)
+    if not sieve:
+        sieve = PrimeSieve(max_p)
+    for prime in sieve:
+        if prime > max_p:
+            return True
+        if n % prime == 0:
+            return False
+    return True
+
+
 def prime_factors(target, sieve=None):
     if target == 0:
         return ()
