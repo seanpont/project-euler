@@ -16,4 +16,13 @@ of the following expression.
     d[1] * d[10] * d[100] * d[1000] * d[10000] * d[100000] * d[1000000]
 """
 
+from utils import *
 
+
+d = [0]
+for n in xrange(1000000):
+    d += to_digits(n)
+    if len(d) >= 1000001:
+        break
+
+print d[1] * d[10] * d[100] * d[1000] * d[10000] * d[100000] * d[1000000]
