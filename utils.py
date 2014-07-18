@@ -118,6 +118,10 @@ def min_index(items):
     return items.index(min(items))
 
 
+def max_index(items):
+    return items.index(max(items))
+
+
 def flatten(iterable):
     return chain(*iterable)
 
