@@ -132,6 +132,13 @@ def is_palindrome(items):
     return True
 
 
+def starts_with(items, prefix):
+    return len(items) >= len(prefix) and items[:len(prefix)] == prefix
+
+
+# ===== LCM ================================================
+
+
 def lowest_common_multiple(nums, max_num=1000000000):
     rangers = [xrange(i, max_num, i).__iter__() for i in nums]
     nexts = [ranger.next() for ranger in rangers]
@@ -211,6 +218,8 @@ if __name__ == '__main__':
     assert not all_equal([1, 1, 1, 2])
     assert all_equal([4, 4, 4])
     assert is_palindrome('4567654')
+    assert starts_with('49205', '492')
+    assert not starts_with('424', '4242')
     assert product_of([3, 5, 7]) == 3 * 5 * 7
     assert to_digits(48195) == (4, 8, 1, 9, 5)
     assert from_digits(to_digits(830285)) == 830285
