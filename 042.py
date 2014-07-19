@@ -17,4 +17,19 @@ file containing nearly two-thousand common English words, how many are
 triangle words?
 """
 
+from string import uppercase
+
+
+def score_word(word):
+    return sum([uppercase.index(letter) for letter in word]) + len(word)
+
+f = open('words.txt')
+words = f.readline().split(",")
+f.close()
+
+words = map(lambda x: x[1:-1], words)
+triangles = [n*(n+1)/2 for n in xrange(1, 100)]
+
+print len([word for word in words if score_word(word) in triangles])
+
 
