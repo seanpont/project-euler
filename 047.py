@@ -19,3 +19,23 @@ factors. What is the first of these numbers?
 """
 
 
+from utils import *
+
+
+limit = 200000
+
+sieve = PrimeSieve(limit ** .5 + 1)
+
+size = 4
+n = 640
+count = 0
+while n < limit:
+    if len(set(prime_factors(n, sieve))) != size:
+        count = 0
+    else:
+        count += 1
+    if count == size:
+        print n - size + 1
+        exit()
+    n += 1
+
