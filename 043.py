@@ -21,3 +21,28 @@ Find the sum of all 0 to 9 pandigital numbers with this property.
 """
 
 
+from utils import *
+
+
+def sub_numbers(digits):
+    return (from_digits(digits[n:n+3]) for n in xrange(7, 0, -1))
+
+
+divisors = [2, 3, 5, 7, 11, 13, 17]
+divisors.reverse()
+
+
+def is_valid(digits):
+    if digits[5] % 5 != 0: return False
+    for i, sub in enumerate(sub_numbers(digits)):
+        if sub % divisors[i] != 0:
+            return False
+    return True
+
+
+print sum((from_digits(digits) for digits in permutations(to_digits(1234567890)) if is_valid(digits)))
+
+
+
+
+
