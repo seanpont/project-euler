@@ -217,6 +217,7 @@ def to_digits(n):
 def from_digits(digits):
     return reduce(lambda a, b: a*10+b, digits)
 
+
 def rotations(n):
     digits = deque(to_digits(n))
     for i in xrange(len(digits)):

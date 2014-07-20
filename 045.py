@@ -15,3 +15,24 @@ Find the next triangle number that is also pentagonal and hexagonal.
 """
 
 
+from utils import *
+
+T = lambda n: n*(n+1)/2
+P = lambda n: n*(3*n-1)/2
+H = lambda n: n*(2*n-1)
+
+def generate(func, n=1):
+    while True:
+        yield func(n)
+        n += 1
+
+
+gens = [generate(T, 286), generate(P, 165), generate(H, 143)]
+vals = [g.next() for g in gens]
+
+
+while not all_equal(vals):
+    i = min_index(vals)
+    vals[i] = gens[i].next()
+
+print vals[0]
