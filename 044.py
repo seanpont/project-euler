@@ -16,3 +16,26 @@ the value of D?
 """
 
 
+def p(n):
+    return n*(3*n-1)/2
+
+
+def is_p(x):
+    a = (24 * x + 1) ** .5
+    return int(a) == a and (a + 1) % 6 == 0
+
+
+for i in xrange(2, 10000):
+    pi = p(i)
+    for j in xrange(1, i):
+        pj = p(j)
+        if is_p(pi-pj) and is_p(pi+pj):
+            print pi-pj
+            exit()
+
+
+
+
+
+
+
