@@ -16,3 +16,31 @@ sequence?
 """
 
 
+from utils import *
+from collections import defaultdict
+
+sieve = PrimeSieve(10000)
+
+perms = defaultdict(list)
+
+
+def contains_sequence(items):
+    items.sort()
+    for i, a in enumerate(items[:-2]):
+        for j, b in enumerate(items[i+1:-1]):
+            c = b + b - a
+            if c in items[j+1:]:
+                return a, b, c
+
+
+for prime in sieve:
+    if prime < 1000: continue
+    perms[''.join(sorted(str(prime)))].append(prime)
+
+for perm in perms:
+    seq = contains_sequence(perms[perm])
+    if seq and seq[0] != 1487:
+        print ''.join(map(str, seq))
+
+
+
