@@ -135,6 +135,14 @@ def find(iterable, func):
             return i
 
 
+def count(iterable, func):
+    c = 0
+    for i in iterable:
+        if func(i):
+            c += 1
+    return c
+
+
 def min_index(items):
     return items.index(min(items))
 
@@ -264,6 +272,7 @@ if __name__ == '__main__':
     assert all_equal((i*0 for i in xrange(5 )))
     assert not all_equal(xrange(5))
     assert find(xrange(5), lambda x: x == 3) == 3
+    assert count(xrange(5), lambda x: x >= 3) == 2
     assert is_palindrome('4567654')
     assert starts_with('49205', '492')
     assert not starts_with('424', '4242')

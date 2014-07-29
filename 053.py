@@ -19,4 +19,8 @@ It is not until n = 23, that a value exceeds one-million: ^23C[10] =
 How many values of  ^nC[r], for 1 n 100, are greater than one-million?
 """
 
+from utils import *
+from math import factorial as f
 
+
+print count((f(n) / (f(r) * f(n-r)) for n in xrange(1, 101) for r in xrange(1, n)), lambda x: x > 1000000)
