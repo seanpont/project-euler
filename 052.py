@@ -9,16 +9,8 @@ Find the smallest positive integer, x, such that 2x, 3x, 4x, 5x, and 6x,
 contain the same digits.
 """
 
-
 from utils import *
 
 
-def p52(n):
-    for x in xrange(1, 7):
-        yield set(to_digits(n*x))
+print find(xrange(1, 1000000), lambda n: all_equal((set(to_digits(n*x))) for x in xrange(1, 7)))
 
-
-for n in xrange(1, 1000000):
-    if all_equal(tuple(p52(n))):
-        print n
-        exit()

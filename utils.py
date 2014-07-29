@@ -107,12 +107,15 @@ def product_of(nums):
     return reduce(lambda a, b: a*b, nums, 1)
 
 
-def all_equal(items):
-    a = items[0]
-    for b in items[1:]:
-        if a != b:
-            return False
-    return True
+def all_equal(iterable):
+    iterator = iter(iterable)
+    a = iterator.next()
+    try:
+        while a == iterator.next():
+            pass
+        return False
+    except StopIteration:
+        return True
 
 
 def all_different(items):
@@ -124,6 +127,12 @@ def all_meet_criteria(items, func):
         if not func(item):
             return False
     return True
+
+
+def find(iterable, func):
+    for i in iterable:
+        if func(i):
+            return i
 
 
 def min_index(items):
@@ -252,6 +261,9 @@ if __name__ == '__main__':
     assert tuple(factor_pairs(64)) == ((1, 64), (2, 32), (4, 16), (8, 8))
     assert not all_equal([1, 1, 1, 2])
     assert all_equal([4, 4, 4])
+    assert all_equal((i*0 for i in xrange(5 )))
+    assert not all_equal(xrange(5))
+    assert find(xrange(5), lambda x: x == 3) == 3
     assert is_palindrome('4567654')
     assert starts_with('49205', '492')
     assert not starts_with('424', '4242')
