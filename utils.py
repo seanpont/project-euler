@@ -1,7 +1,7 @@
 __author__ = 'sean'
 
 from collections import defaultdict, deque
-from itertools import *
+import itertools
 import math
 
 
@@ -76,12 +76,12 @@ def num_divisors(target, sieve=None):
     factors = prime_factors(target, sieve)
     for f in factors:
         d[f] += 1
-    return product([v+1 for v in d.values()])
+    return itertools.product([v+1 for v in d.values()])
 
 
 def proper_divisors(target, sieve=None):
     factors = prime_factors(target, sieve)
-    return tuple(set(chain(*((product_of(combo) for combo in combinations(factors, r)) for r in xrange(len(factors))))))
+    return tuple(set(itertools.chain(*((product_of(combo) for combo in itertools.combinations(factors, r)) for r in xrange(len(factors))))))
 
 
 def factor_pairs(target, sieve=None):
@@ -135,7 +135,7 @@ def max_index(items):
 
 
 def flatten(iterable):
-    return chain(*iterable)
+    return itertools.chain(*iterable)
 
 
 def is_palindrome(items):
@@ -150,6 +150,24 @@ def is_palindrome(items):
 
 def starts_with(items, prefix):
     return len(items) >= len(prefix) and items[:len(prefix)] == prefix
+
+
+class SequenceInRange(object):
+    def __init__(self, iter, low, high):
+        self.iter = iter.__iter__()
+        self.low = low
+        self.high = high
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        item = self.iter.next()
+        while item < self.low:
+            item = self.iter.next()
+        if item >= self.high:
+            raise StopIteration
+        return item
 
 
 # ===== LCM ================================================
@@ -237,6 +255,7 @@ if __name__ == '__main__':
     assert is_palindrome('4567654')
     assert starts_with('49205', '492')
     assert not starts_with('424', '4242')
+    assert [i for i in SequenceInRange(xrange(10), 3, 8)] == range(3, 8)
     assert product_of([3, 5, 7]) == 3 * 5 * 7
     assert to_digits(48195) == (4, 8, 1, 9, 5)
     assert from_digits(to_digits(830285)) == 830285
