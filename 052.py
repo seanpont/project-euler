@@ -10,3 +10,15 @@ contain the same digits.
 """
 
 
+from utils import *
+
+
+def p52(n):
+    for x in xrange(1, 7):
+        yield set(to_digits(n*x))
+
+
+for n in xrange(1, 1000000):
+    if all_equal(tuple(p52(n))):
+        print n
+        exit()
