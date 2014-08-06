@@ -20,6 +20,19 @@ the numerator exceeds the number of digits in the denominator.
 
 In the first one-thousand expansions, how many fractions contain a
 numerator with more digits than denominator?
+
+1 + 1/2 = (2 + 1) / 2
+
+
 """
 
 
+def expansions(n):
+    num, denom = 3, 2
+    for _ in xrange(n):
+        yield num, denom
+        num, denom = num+2*denom, num+denom
+
+from utils import count, to_digits
+
+print count(expansions(1000), lambda x: len(to_digits(x[0])) > len(to_digits(x[1])))
