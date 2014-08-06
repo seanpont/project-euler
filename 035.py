@@ -16,4 +16,4 @@ from utils import *
 
 sieve = PrimeSieve(1000000)
 
-print len([n for n in sieve if all_meet_criteria(rotations(n), lambda x: sieve.is_prime(x))])
+print len([n for n in sieve if match_all(rotations(n), lambda x: sieve.is_prime(x))])

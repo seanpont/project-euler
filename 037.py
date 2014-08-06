@@ -30,8 +30,8 @@ def left_truncate(n):
 
 def is_truncatable_prime(n):
     return is_prime(n) and \
-           all_meet_criteria(by_tens(n), is_prime) and \
-           all_meet_criteria(left_truncate(n), is_prime)
+           match_all(by_tens(n), is_prime) and \
+           match_all(left_truncate(n), is_prime)
 
 
 print sum([n for n in xrange(11, max_n) if is_truncatable_prime(n)])

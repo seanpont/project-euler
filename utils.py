@@ -122,7 +122,7 @@ def all_different(items):
     return len(set(items)) == len(items)
 
 
-def all_meet_criteria(items, func):
+def match_all(items, func):
     for item in items:
         if not func(item):
             return False
@@ -136,6 +136,9 @@ def find(iterable, func):
 
 
 def count(iterable, func):
+    if not hasattr(func, '__call__'):
+        a = func
+        func = lambda x: x == a
     c = 0
     for i in iterable:
         if func(i):
@@ -262,7 +265,7 @@ def rotations(n):
 # ===== TESTS ==============================
 
 
-if __name__ == '__main__':
+def _tests():
     assert prime_factors(0, PrimeSieve(3)) == ()
     assert proper_divisors(10) == (1, 2, 5)
     assert tuple(factor_pairs(24)) == ((1, 24), (2, 12), (3, 8), (4, 6))
@@ -273,6 +276,7 @@ if __name__ == '__main__':
     assert not all_equal(xrange(5))
     assert find(xrange(5), lambda x: x == 3) == 3
     assert count(xrange(5), lambda x: x >= 3) == 2
+    assert count([3, 5, 2, 3, 4, 5, 6], 3) == 2
     assert is_palindrome('4567654')
     assert starts_with('49205', '492')
     assert not starts_with('424', '4242')
@@ -281,3 +285,10 @@ if __name__ == '__main__':
     assert to_digits(48195) == (4, 8, 1, 9, 5)
     assert from_digits(to_digits(830285)) == 830285
     assert list(rotations(345)) == [345, 534, 453]
+    assert match_all([3]*4, lambda x: x == 3)
+    assert not match_all(range(5), lambda x: x < 3)
+    assert match_all(enumerate(range(4, 8)), lambda x: x[1]-x[0] == 4)
+
+if __name__ == '__main__':
+    _tests()
+
