@@ -11,3 +11,7 @@ the maximum digital sum?
 """
 
 
+from utils import *
+
+
+print max(sum(to_digits(a**b)) for a in xrange(1, 100) for b in xrange(1, 100))
