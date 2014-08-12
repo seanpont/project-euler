@@ -24,3 +24,30 @@ along both diagonals first falls below 10%?
 """
 
 
+from utils import *
+
+
+def spiral(s_max):
+    s, n = 0, 1
+    yield n
+    while s < s_max:
+        s += 2
+        for _ in xrange(4):
+            n += s
+            yield n
+
+
+sieve = PrimeSieve(100000)
+spiral_gen = spiral(100000)
+spiral_gen.next()  # throw away the 1
+primes, total, ratio, s = 0, 1, 1, 1
+while ratio >= .1:
+    s += 2
+    for _ in xrange(4):
+        if is_prime(spiral_gen.next(), sieve):
+            primes += 1
+    total += 4
+    ratio = float(primes) / float(total)
+    # print primes, total, ratio, s
+print s
+

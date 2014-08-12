@@ -42,6 +42,10 @@ def is_prime(n, sieve=None):
     max_p = math.ceil(n**.5)
     if not sieve:
         sieve = PrimeSieve(max_p)
+    elif sieve.size < max_p:
+        raise Exception("Sieve insufficiently large!")
+    elif sieve.size > n:
+        return sieve.is_prime(n)
     for prime in sieve:
         if prime > max_p:
             return True
