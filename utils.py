@@ -266,6 +266,17 @@ def rotations(n):
         yield from_digits(digits)
         digits.rotate()
 
+
+# ===== OTHER ==============================
+
+
+def english_words():
+    f = open('words.txt')
+    words = f.readline().split(",")
+    f.close()
+    words = map(lambda x: x[1:-1], words)
+    return words
+
 # ===== TESTS ==============================
 
 

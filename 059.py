@@ -31,3 +31,42 @@ of the ASCII values in the original text.
 """
 
 
+from utils import *
+from string import ascii_lowercase, ascii_letters, lower, punctuation
+
+
+def read_cipher():
+    f = file('cipher1.txt')
+    cipher = f.readline().split(',')
+    f.close()
+    return map(lambda x: int(x), cipher)
+
+
+def decrypt(cipher, pw):
+    return ''.join((chr(c ^ ord(letter)) for c, letter in zip(cipher, itertools.cycle(pw))))
+
+
+def encrypt(text, pw):
+    return [ord(c) ^ ord(letter) for c, letter in zip(text, itertools.cycle(pw))]
+
+
+def pw_generator(length):
+    for combo in itertools.combinations_with_replacement(ascii_lowercase, length):
+        for pw in itertools.permutations(combo):
+            yield pw
+
+def solve():
+    english_dict = map(lower, english_words())
+    cipher = read_cipher()
+
+    for pw in pw_generator(3):
+        decrypted = decrypt(cipher[:50], pw)
+        for word in english_dict:
+            if len(word) > 5 and word in decrypted:
+                print sum(map(ord, decrypt(cipher, pw)))
+                exit()
+
+
+
+
+solve()
