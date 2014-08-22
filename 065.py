@@ -52,3 +52,22 @@ continued fraction for e.
 """
 
 
+def e_terms(length):
+    yield 2
+    for n in xrange(1, length/3+3):
+        yield 1
+        yield n*2
+        yield 1
+
+
+def solve(size):
+    terms = list(e_terms(size))[:size]
+    terms.reverse()
+    n, d = 1, terms[0]
+    for a in terms[1:]:
+        n, d = d, n + d * a
+    return d, n
+
+
+from utils import to_digits
+print sum(to_digits(solve(100)[0]))
