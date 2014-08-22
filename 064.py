@@ -66,3 +66,37 @@ How many continued fractions for N 10000 have an odd period?
 """
 
 
+def cycle_counter(gen):
+    a = []
+    while True:
+        n = gen.next()
+        if n in a:
+            return len(a) - a.index(n)
+        a.append(n)
+
+
+assert cycle_counter([1, 3, 5, 6, 3].__iter__()) == 3
+assert cycle_counter([1, 1].__iter__()) == 1
+
+
+def doodle(n):
+    root = n ** .5  # root(23)
+    a = int(root)  # a_0
+    nm, dr = 1, -a
+    for _ in xrange(1000):
+        d = (n - dr**2) / nm
+        a = int((root - dr) / d)
+        dr, nm = -dr - a * d, d
+        yield a, nm, dr
+
+
+def solve():
+    count = 0
+    for n in xrange(1, 10000):
+        if n**.5 == int(n**.5): continue
+        if cycle_counter(doodle(n)) % 2 == 1:
+            count += 1
+    print count
+
+
+solve()
