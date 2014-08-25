@@ -162,6 +162,10 @@ def flatten(iterable):
     return itertools.chain(*iterable)
 
 
+def pick(items, indices):
+    return [items[i] for i in indices]
+
+
 def is_palindrome(items):
     if isinstance(items, int):
         items = str(items)
