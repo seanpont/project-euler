@@ -24,3 +24,12 @@ efficient algorithm to solve it. ;o)
 """
 
 
+f = open('p067_triangle.txt')
+triangle = [map(int, line.split(' ')) for line in f]
+f.close()
+
+base = triangle[-1]
+for row in reversed(triangle[:-1]):
+    base = [row[i] + max(base[i], base[i+1]) for i in xrange(len(row))]
+
+print base[0]
