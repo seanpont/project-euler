@@ -7,9 +7,22 @@ import math
 
 # ===== PRIMES AND FACTORS =========================
 
+class _PrimeIterator(object):
+    def __init__(self, sieve):
+        self.sieve = sieve
+        self.index = 1
+
+    def next(self):
+        self.index += 1
+        while self.index < self.sieve.size and not self.sieve[self.index]:
+            self.index += 1
+        if self.index >= self.sieve.size:
+            raise StopIteration()
+        return self.index
+
+
 class PrimeSieve(object):
     def __init__(self, size):
-        self.index = 1  # for iteration
         self.size = int(size)
         self.sieve = [True] * self.size
         self.sieve[1] = False
@@ -26,16 +39,10 @@ class PrimeSieve(object):
         return self.is_prime(num)
 
     def __iter__(self):
-        self.index = 1
-        return self
+        return _PrimeIterator(self)
 
-    def next(self):
-        self.index += 1
-        while self.index < self.size and not self.sieve[self.index]:
-            self.index += 1
-        if self.index >= self.size:
-            raise StopIteration()
-        return self.index
+    def __getitem__(self, item):
+        return self.sieve[item]
 
 
 def is_prime(n, sieve=None):
@@ -282,6 +289,12 @@ def english_words():
     return words
 
 # ===== TESTS ==============================
+
+
+def assert_equal(a, b):
+    if a != b:
+        print "Expected %s but got %s" % (b, a)
+        exit(1)
 
 
 def _tests():
