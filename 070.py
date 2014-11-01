@@ -65,9 +65,10 @@ def solve2():
             if p2 >= p1:
                 break
             n = p1 * p2
+            if n > limit:
+                break
             t = (p1-1) * (p2-1)
-            if (n < limit and
-                sorted(to_digits(n)) == sorted(to_digits(t)) and
+            if (sorted(to_digits(n)) == sorted(to_digits(t)) and
                 n/float(t) < min_ratio):
                 # print n, t, n/float(t), sorted(tuple(set(prime_factors(n, sieve))))
                 min_ratio, best_n = n/float(t), n
