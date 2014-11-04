@@ -14,7 +14,24 @@ of size, we get:
 It can be seen that there are 3 fractions between 1/3 and 1/2.
 
 How many fractions lie between 1/3 and 1/2 in the sorted set of reduced
-proper fractions for d 10,000?
+proper fractions for d <= 12,000?
 """
+
+from utils import *
+
+
+def solve(n):
+    factorizor = PrimeFactorizor(n)
+    c = 0
+    for d in xrange(4, n+1):
+        factors = set(factorizor.factorize(d))
+        lo, hi = d/3+1, d/2
+        for n in xrange(lo, hi+1):
+            if all(n % f != 0 for f in factors):
+                c += 1
+    return c
+
+print solve(12000)
+
 
 

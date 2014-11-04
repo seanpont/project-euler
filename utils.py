@@ -54,6 +54,41 @@ class PrimeSieve(object):
         return self.sieve[item]
 
 
+class PrimeFactorizor(object):
+    def __init__(self, max_size):
+        self.sieve = PrimeSieve(max_size+1)
+        self.cache = {1: ()}
+
+    def factorize(self, n):
+        assert n < self.sieve.size, "Please increase PrimeFactorizor size"
+        if n == 0:
+            return ()
+        if self.sieve.is_prime(n):
+            return n,
+        if self.cache.get(n) is not None:
+            return self.cache[n]
+        factors = []
+        target = n
+        for p in self.sieve:
+            while n % p == 0:
+                factors.append(p)
+                n /= p
+                if self.sieve.is_prime(n):
+                    factors.append(n)
+                    n = 1
+                if n != 1 and self.cache.get(n) is not None:
+                    factors += self.cache[n]
+                    n = 1
+                if n == 1:
+                    pfs = tuple(factors)
+                    self.cache[target] = pfs
+                    return pfs
+
+    def totient(self, n):
+        pfs = set(self.factorize(n))
+        return n * product_of(pf-1 for pf in pfs) / product_of(pfs)
+
+
 def is_prime(n, sieve=None):
     max_p = math.ceil(n**.5)
     if not sieve:
