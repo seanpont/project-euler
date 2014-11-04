@@ -24,34 +24,6 @@ limit = 10**7
 sieve = PrimeSieve(limit**.55)
 
 
-def slow_totient(n):
-    return count(xrange(1, n), lambda x: greatest_common_divisor(x, n, sieve) == 1)
-
-
-def faster_totient(n):
-    factors = sorted(tuple(set(prime_factors(n, sieve))))
-    c, a = n, -1
-    for i in xrange(len(factors)):
-        for f_set in itertools.combinations(factors, i+1):
-            c += n/product_of(f_set) * a
-        a *= -1
-    return c
-
-
-def solve():
-    """ This was not fast enough """
-    best_n = 0
-    min_ratio = limit
-    for n in range(2, limit):
-        t = faster_totient(n)
-        if sorted(to_digits(n)) == sorted(to_digits(t)) and n/float(t) < min_ratio:
-            print n, t, n/float(t), sorted(tuple(set(prime_factors(n, sieve))))
-            min_ratio, best_n = n/float(t), n
-    print best_n
-
-# solve()
-
-
 def solve2():
     """So the trick here is that a number with a high totient that is a permutation
     of itself will have only two prime factors. This is because the totient of a prime
@@ -75,7 +47,7 @@ def solve2():
     print best_n
 
 
-solve2()
+# solve2()
 
 
 

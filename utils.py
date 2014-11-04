@@ -5,6 +5,15 @@ import itertools
 import math
 
 
+def timed(f):
+    from time import time
+    def timed_func(*args, **kwargs):
+        start = time()
+        result = f(*args, **kwargs)
+        return result, (time()-start) * 1e6
+    return timed_func
+
+
 # ===== PRIMES AND FACTORS =========================
 
 class _PrimeIterator(object):
@@ -67,6 +76,8 @@ def prime_factors(target, sieve=None):
     if not sieve:
         sieve_size = min(10000, int(target ** .5) + 1)
         sieve = PrimeSieve(sieve_size)
+    if is_prime(target, sieve):
+        return target,
     factors = []
     for i in sieve:
         while target % i == 0:
@@ -78,6 +89,11 @@ def prime_factors(target, sieve=None):
     if target > 1:
         factors.append(target)
     return tuple(factors)
+
+
+def totient(n, sieve=None):
+    pfs = set(prime_factors(n, sieve))
+    return n * product_of(pf-1 for pf in pfs) / product_of(pfs)
 
 
 def num_divisors(target, sieve=None):
@@ -320,6 +336,8 @@ def _tests():
     assert match_all([3]*4, lambda x: x == 3)
     assert not match_all(range(5), lambda x: x < 3)
     assert match_all(enumerate(range(4, 8)), lambda x: x[1]-x[0] == 4)
+    assert_equal(totient(9), 6)
+    assert_equal(totient(21), 6*2)
 
 if __name__ == '__main__':
     _tests()
